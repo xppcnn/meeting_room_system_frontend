@@ -31,15 +31,18 @@ instance.interceptors.response.use(
     if (data.code === 200) {
       return response;
     } else {
-      console.log(data);
-      toast.error(data?.message || "系统错误", {
-        hideProgressBar: true,
-        position: "top-center",
-      });
+      toast.error(data?.message || "系统错误");
       return response;
     }
   },
-  (error: AxiosError) => {
+  (error: AxiosError<ResponseData>) => {
+    const { response } = error;
+    if (response?.status === 500) {
+      toast.error("系统响应错误");
+    }
+    if (response?.status === 400 && response.data.code === 400) {
+      toast.error(response.data.message || "参数校验错误");
+    }
     // 超出 2xx 范围的状态码都会触发该函数。
     // 对响应错误做点什么
     return Promise.reject(error);

@@ -3,6 +3,10 @@ export interface ILoginForm {
   password: string;
 }
 
+export interface IRegister {
+  address: string;
+}
+
 interface Role {
   id: number;
   name: string;
@@ -42,3 +46,12 @@ export interface Token {
 export type ILoginData = {
   userInfo: UserInfo;
 } & Token;
+
+export interface IRegisterForm {
+  username: string;
+  nickName: string;
+  password: string;
+  passwordConfirm?: string;
+  email: string;
+  captcha: string;
+}
