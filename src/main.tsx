@@ -1,30 +1,18 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { StyledEngineProvider, ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import { ToastContainer } from "react-toastify";
 import "./index.css";
-import BaseLayout from "./layout/BaseLayout";
-import Aaa from "./pages/Aaa";
-import Bbb from "./pages/Bbb";
-const routes = [
-  {
-    path: "/",
-    element: <BaseLayout />,
-    children: [
-      {
-        path: "aaa",
-        element: <Aaa />,
-      },
-      {
-        path: "bbb",
-        element: <Bbb />,
-      },
-    ],
-  },
-];
-const router = createBrowserRouter(routes);
+import Routers from "./routes";
+import defaultTheme from "./theme";
 
+import "react-toastify/dist/ReactToastify.css";
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
+  <StyledEngineProvider injectFirst>
+    <ThemeProvider theme={defaultTheme}>
+      <CssBaseline />
+      <ToastContainer />
+      <Routers></Routers>
+    </ThemeProvider>
+  </StyledEngineProvider>
 );
