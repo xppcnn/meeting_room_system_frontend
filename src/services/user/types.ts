@@ -3,7 +3,7 @@ export interface ILoginForm {
   password: string;
 }
 
-export interface IRegister {
+export interface IRegisterCode {
   address: string;
 }
 
@@ -50,6 +50,13 @@ export type ILoginData = {
 export interface IRegisterForm {
   username: string;
   nickName: string;
+  password: string;
+  passwordConfirm?: string;
+  email: string;
+  captcha: string;
+}
+
+export interface IResetPswForm {
   password: string;
   passwordConfirm?: string;
   email: string;

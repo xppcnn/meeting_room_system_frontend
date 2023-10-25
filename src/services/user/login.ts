@@ -1,5 +1,5 @@
 import request from "@/utils/request";
-import { ILoginData, ILoginForm, IRegister } from "./types";
+import { ILoginData, ILoginForm, IRegisterCode, IResetPswForm } from "./types";
 
 export async function login(data: ILoginForm) {
   return request<ILoginData>({
@@ -9,7 +9,7 @@ export async function login(data: ILoginForm) {
   });
 }
 
-export async function registerSms(data: IRegister) {
+export async function registerSms(data: IRegisterCode) {
   return request<null>({
     method: "get",
     url: "/email/code",
@@ -22,5 +22,21 @@ export async function register(data: Omit<ILoginForm, "passwordConfirm">) {
     method: "post",
     url: "/user/register",
     data,
+  });
+}
+
+export async function resetPsw(data: IResetPswForm) {
+  return request<null>({
+    method: "post",
+    url: "/user/resetPassword",
+    data,
+  });
+}
+
+export async function getResetPswSms(data: IRegisterCode) {
+  return request<null>({
+    method: "get",
+    url: "/email/reset_password/captcha",
+    params: data,
   });
 }

@@ -20,7 +20,7 @@ const schema = yup
   .required();
 const Login = () => {
   const { setUserInfo } = useUserInfoStore();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { control, handleSubmit } = useForm({
     defaultValues: {
       username: "",
@@ -42,9 +42,11 @@ const Login = () => {
   };
 
   const goRegister = () => {
-    navigate('/register')
+    navigate("/register");
   };
-  const goResetPwd = () => {};
+  const goResetPwd = () => {
+    navigate("/updatePassword");
+  };
   return (
     <Container component="main" maxWidth="xs">
       <div className="mt-8 flex flex-col items-center">
