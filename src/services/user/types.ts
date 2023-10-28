@@ -62,3 +62,8 @@ export interface IResetPswForm {
   email: string;
   captcha: string;
 }
+
+
+export interface INickNameForm {
+  name: string
+}

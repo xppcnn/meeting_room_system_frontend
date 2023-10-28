@@ -19,12 +19,15 @@ export default defineConfig({
     },
   },
   server: {
+    watch: {
+      usePolling: true,
+    },
     port: 8866,
     proxy: {
       "/api": {
         target: "http://1.13.174.237:6688",
         changeOrigin: true,
-        rewrite: path => path.replace(/^\/api/, '')
+        rewrite: (path) => path.replace(/^\/api/, ""),
       },
     },
   },

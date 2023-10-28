@@ -4,15 +4,22 @@ import Login from "@/pages/user/Login";
 import Register from "@/pages/user/Register";
 import UpdatePassword from "@/pages/user/UpdatePassword";
 import UserLayout from "@/layouts/UserLayout";
+import Dashboards from "@/pages/dashboards";
+import Account from "@/pages/user/Account";
+import Demo from "@/pages/demo";
 
 const routes = [
   {
-    path: "/",
+    path: "/user",
     element: <UserLayout />,
     children: [
       {
         path: "login",
         element: <Login />,
+      },
+      {
+        path: "demo",
+        element: <Demo />,
       },
       {
         path: "register",
@@ -25,20 +32,16 @@ const routes = [
     ],
   },
   {
-    path: "/index",
+    path: "/",
     element: <BaseLayout />,
     children: [
       {
-        path: "login",
-        element: <Login />,
+        path: "dashboards",
+        element: <Dashboards />,
       },
       {
-        path: "register",
-        element: <Register />,
-      },
-      {
-        path: "updatePassword",
-        element: <UpdatePassword />,
+        path: "account",
+        element: <Account />,
       },
     ],
   },
