@@ -1,12 +1,25 @@
-import Typography from "@mui/material/Typography";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
 import useCountDown from "@/hooks/useCountDown";
 import { registerSms, register } from "@/services/user/login";
 import { IRegisterForm } from "@/services/user/types";
+import {
+  Box,
+  Flex,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Heading,
+  Input,
+  Stack,
+  Button,
+  Text,
+  Link,
+  useColorModeValue,
+  HStack,
+} from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 const schema = yup
   .object()
@@ -30,6 +43,7 @@ const Register = () => {
   const { control, handleSubmit, getValues, trigger } = useForm({
     resolver: yupResolver(schema),
   });
+  const navigate = useNavigate();
   const { count, start } = useCountDown(60);
   const handleSave: SubmitHandler<IRegisterForm> = async (params) => {
     const lastParams = {
@@ -48,127 +62,160 @@ const Register = () => {
       }
     }
   };
-  return (
-    <div className="flex items-center mt-8 flex-col w-1/4 ml-auto mr-auto">
-      <Typography component="h1" variant="h5">
-        会议系统
-      </Typography>
-      <form noValidate onSubmit={handleSubmit(handleSave)}>
-        <Controller
-          name="username"
-          control={control}
-          render={({ field, fieldState: { error } }) => (
-            <TextField
-              {...field}
-              error={!!error}
-              helperText={error?.message}
-              label="用户名"
-              required
-              fullWidth
-              margin="normal"
-              autoFocus
-            />
-          )}
-        />
-        <Controller
-          name="nickName"
-          control={control}
-          render={({ field, fieldState: { error } }) => (
-            <TextField
-              {...field}
-              error={!!error}
-              helperText={error?.message}
-              label="昵称"
-              required
-              fullWidth
-              margin="normal"
-              autoFocus
-            />
-          )}
-        />
-        <Controller
-          name="password"
-          control={control}
-          render={({ field, fieldState: { error } }) => (
-            <TextField
-              {...field}
-              error={!!error}
-              helperText={error?.message}
-              label="密码"
-              required
-              fullWidth
-              margin="normal"
-              autoFocus
-              type="password"
-            />
-          )}
-        />
-        <Controller
-          name="passwordConfirm"
-          control={control}
-          render={({ field, fieldState: { error } }) => (
-            <TextField
-              {...field}
-              error={!!error}
-              helperText={error?.message}
-              label="确认密码"
-              required
-              fullWidth
-              margin="normal"
-              type="password"
-              autoFocus
-            />
-          )}
-        />
-        <Controller
-          name="email"
-          control={control}
-          render={({ field, fieldState: { error } }) => (
-            <TextField
-              {...field}
-              error={!!error}
-              helperText={error?.message}
-              label="邮箱"
-              required
-              fullWidth
-              margin="normal"
-              autoFocus
-              type="email"
-            />
-          )}
-        />
-        <div className="flex justify-between items-center">
-          <Controller
-            name="captcha"
-            control={control}
-            render={({ field, fieldState: { error } }) => (
-              <TextField
-                {...field}
-                error={!!error}
-                helperText={error?.message}
-                label="验证码"
-                required
-                className="w-2/3"
-                margin="normal"
-                autoFocus
-              />
-            )}
-          />
-          <Button variant="contained" onClick={sendSms} disabled={count !== 60}>
-            {count === 60 ? "获取验证码" : `${count}秒后重新获取`}
-          </Button>
-        </div>
 
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          sx={{ mt: 3, mb: 2 }}
+  const goToLogin = () => {
+    navigate("/user/login");
+  };
+  return (
+    <Flex
+      minH={"100vh"}
+      align={"center"}
+      justify={"center"}
+      bg={useColorModeValue("gray.50", "gray.800")}
+    >
+      <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
+        <Stack align={"center"}>
+          <Heading fontSize={"4xl"}>XPPCNN 会 议 系 统</Heading>
+        </Stack>
+        <Box
+          rounded={"lg"}
+          bg={useColorModeValue("white", "gray.700")}
+          boxShadow={"lg"}
+          p={8}
         >
-          注册
-        </Button>
-      </form>
-    </div>
+          <form noValidate onSubmit={handleSubmit(handleSave)}>
+            <Stack spacing={4}>
+              <Controller
+                name="username"
+                control={control}
+                render={({ field, fieldState: { error } }) => (
+                  <FormControl isInvalid={!!error}>
+                    <FormLabel htmlFor="username">用户名</FormLabel>
+                    <Input id="username" placeholder="请输入" {...field} />
+                    <FormErrorMessage>
+                      {error && error.message}
+                    </FormErrorMessage>
+                  </FormControl>
+                )}
+              />
+              <Controller
+                name="nickName"
+                control={control}
+                render={({ field, fieldState: { error } }) => (
+                  <FormControl isInvalid={!!error}>
+                    <FormLabel htmlFor="nickName">昵称</FormLabel>
+                    <Input id="nickName" placeholder="请输入" {...field} />
+                    <FormErrorMessage>
+                      {error && error.message}
+                    </FormErrorMessage>
+                  </FormControl>
+                )}
+              />
+              <Controller
+                name="password"
+                control={control}
+                render={({ field, fieldState: { error } }) => (
+                  <FormControl isInvalid={!!error}>
+                    <FormLabel htmlFor="password">密码</FormLabel>
+                    <Input
+                      id="password"
+                      placeholder="请输入"
+                      {...field}
+                      type="password"
+                    />
+                    <FormErrorMessage>
+                      {error && error.message}
+                    </FormErrorMessage>
+                  </FormControl>
+                )}
+              />
+              <Controller
+                name="passwordConfirm"
+                control={control}
+                render={({ field, fieldState: { error } }) => (
+                  <FormControl isInvalid={!!error}>
+                    <FormLabel htmlFor="passwordConfirm">确认密码</FormLabel>
+                    <Input
+                      id="passwordConfirm"
+                      placeholder="请输入"
+                      {...field}
+                      type="password"
+                    />
+                    <FormErrorMessage>
+                      {error && error.message}
+                    </FormErrorMessage>
+                  </FormControl>
+                )}
+              />
+              <Controller
+                name="email"
+                control={control}
+                render={({ field, fieldState: { error } }) => (
+                  <FormControl isInvalid={!!error}>
+                    <FormLabel htmlFor="passwordConfirm">邮箱</FormLabel>
+                    <Input
+                      id="passwordConfirm"
+                      placeholder="请输入"
+                      {...field}
+                      type="email"
+                    />
+                    <FormErrorMessage>
+                      {error && error.message}
+                    </FormErrorMessage>
+                  </FormControl>
+                )}
+              />
+              <HStack>
+                <Box>
+                  <Controller
+                    name="captcha"
+                    control={control}
+                    render={({ field, fieldState: { error } }) => (
+                      <FormControl isInvalid={!!error}>
+                        <FormLabel htmlFor="captcha">验证码</FormLabel>
+                        <Input id="captcha" placeholder="请输入" {...field} />
+                        <FormErrorMessage>
+                          {error && error.message}
+                        </FormErrorMessage>
+                      </FormControl>
+                    )}
+                  />
+                </Box>
+                <Box alignSelf="flex-end">
+                  <Button
+                    variant="contained"
+                    onClick={sendSms}
+                    disabled={count !== 60}
+                  >
+                    {count === 60 ? "获取验证码" : `${count}秒后重新获取`}
+                  </Button>
+                </Box>
+              </HStack>
+              <Stack spacing={10} pt={2}>
+                <Button
+                  type="submit"
+                  bg={"blue.400"}
+                  color={"white"}
+                  _hover={{
+                    bg: "blue.500",
+                  }}
+                >
+                  注册
+                </Button>
+              </Stack>
+              <Stack pt={6}>
+                <Text align={"center"}>
+                  已有账号?{" "}
+                  <Link color={"blue.400"} onClick={goToLogin}>
+                    登录
+                  </Link>
+                </Text>
+              </Stack>
+            </Stack>
+          </form>
+        </Box>
+      </Stack>
+    </Flex>
   );
 };
 

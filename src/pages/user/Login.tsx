@@ -1,4 +1,4 @@
-import { useForm, Controller, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import {
   FormErrorMessage,
   FormLabel,
@@ -7,7 +7,10 @@ import {
   Button,
   Text,
   Heading,
-  Container,
+  Box,
+  Stack,
+  Flex,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -29,7 +32,7 @@ const Login = () => {
   const {
     handleSubmit,
     register,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm({
     defaultValues: {
       username: "",
@@ -58,36 +61,74 @@ const Login = () => {
     navigate("/user/updatePassword");
   };
   return (
-    <Container>
-      <div className="mt-8 flex flex-col items-center">
-        <Heading fontSize={"4xl"}>会议系统</Heading>
-
-        <form noValidate onSubmit={handleSubmit(onSubmit)}>
-          <FormControl isInvalid={!!errors.username}>
-            {/* <FormLabel htmlFor="name">First name</FormLabel> */}
-            <Input
-              id="username"
-              placeholder="username"
-              {...register("username", {
-                required: "This is required",
-                minLength: { value: 4, message: "Minimum length should be 4" },
-              })}
-            />
-            <FormErrorMessage>
-              {errors.username && errors.username.message}
-            </FormErrorMessage>
-          </FormControl>
-
-          <Button type="submit" sx={{ mt: 3, mb: 2 }} disabled={isSubmitting}>
-            登录
-          </Button>
-          <div className="flex justify-between">
-            {/* <Link onClick={goRegister}>创建账号</Link>
-            <Link onClick={goResetPwd}>忘记密码？</Link> */}
-          </div>
-        </form>
-      </div>
-    </Container>
+    <Flex
+      minH={"100vh"}
+      align={"center"}
+      justify={"center"}
+      bg={useColorModeValue("gray.50", "gray.800")}
+    >
+      <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
+        <Stack align={"center"}>
+          <Heading fontSize={"4xl"}>XPPCNN 会 议 系 统</Heading>
+        </Stack>
+        <Box
+          rounded={"lg"}
+          bg={useColorModeValue("white", "gray.700")}
+          boxShadow={"lg"}
+          p={8}
+        >
+          <form noValidate onSubmit={handleSubmit(onSubmit)}>
+            <Stack spacing={4}>
+              <FormControl isInvalid={!!errors.username}>
+                <FormLabel htmlFor="name">用户名</FormLabel>
+                <Input
+                  id="username"
+                  placeholder="请输入"
+                  {...register("username")}
+                />
+                <FormErrorMessage>
+                  {errors.username && errors.username.message}
+                </FormErrorMessage>
+              </FormControl>
+              <FormControl isInvalid={!!errors.password}>
+                <FormLabel htmlFor="password">密码</FormLabel>
+                <Input
+                  id="password"
+                  placeholder="请输入"
+                  type="password"
+                  {...register("password")}
+                />
+                <FormErrorMessage>
+                  {errors.password && errors.password.message}
+                </FormErrorMessage>
+              </FormControl>
+              <Stack spacing={10}>
+                <Stack
+                  direction={{ base: "column", sm: "row" }}
+                  align={"start"}
+                  justify={"space-between"}
+                >
+                  <Text onClick={goRegister}>创建账号</Text>
+                  <Text onClick={goResetPwd} color={"blue.400"}>
+                    忘记密码？
+                  </Text>
+                </Stack>
+                <Button
+                  type="submit"
+                  bg={"blue.400"}
+                  color={"white"}
+                  _hover={{
+                    bg: "blue.500",
+                  }}
+                >
+                  登录
+                </Button>
+              </Stack>
+            </Stack>
+          </form>
+        </Box>
+      </Stack>
+    </Flex>
   );
 };
 
